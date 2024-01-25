@@ -31,3 +31,12 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+- script: dotnet test --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+  displayName: 'Run NUnit Tests with Code Coverage'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage Results'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
